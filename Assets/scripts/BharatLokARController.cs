@@ -284,7 +284,6 @@ public class BharatLokARController : MonoBehaviour
             Destroy(anchorGameObject);
             return;
         }
-
         placedAnchor = anchor;
         allAnchors.Add(anchor);
 
