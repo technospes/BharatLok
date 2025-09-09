@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -11,9 +12,11 @@ using UnityEngine.XR.ARSubsystems;
 [RequireComponent(typeof(ARPlaneManager))]
 public class BharatLokARController : MonoBehaviour
 {
+    private string currentLanguage = "en-US"; // Default to English
+    private bool isNarrationPlaying = false; // We still need this to track state
     [Header("1. Object Prefabs")]
     [Tooltip("The monument prefab to be placed. Use the 'Pivot' parent object.")]
-    public GameObject objectToPlace;
+    //public GameObject objectToPlace;
     private GameObject rotationPivot;
     private float smoothingSpeed = 10f; // increase = less lag, decrease = more smoothing
     [Tooltip("The visual guide that shows where you are aiming.")]
@@ -63,7 +66,7 @@ public class BharatLokARController : MonoBehaviour
         arRaycastManager = GetComponent<ARRaycastManager>();
         arAnchorManager = GetComponent<ARAnchorManager>();
         arPlaneManager = GetComponent<ARPlaneManager>();
-
+        NativeTTS.Initialize();
         // The rest of your script stays exactly the same.
         // If a scene instance wasn't assigned in Inspector but a prefab is, instantiate one
         if (placementIndicator == null && placementIndicatorPrefab != null)
@@ -140,52 +143,100 @@ public class BharatLokARController : MonoBehaviour
             HandlePinchToZoom();
         }
     }
-    private void TryPlaceObject(Vector2 screenPosition)
+    //private void TryPlaceObject(Vector2 screenPosition)
+    //{
+    //    if (placedAnchor != null) return; // only place once
+
+    //    List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    //    if (arRaycastManager.Raycast(screenPosition, hits, TrackableType.PlaneWithinPolygon))
+    //    {
+    //        Pose hitPose = hits[0].pose;
+
+    //        placedAnchor = arAnchorManager.AttachAnchor(hits[0].trackable as ARPlane, hitPose);
+
+    //        if (placedAnchor != null)
+    //        {
+    //            // 1. Instantiate the prefab (which contains the Pivot and the Model)
+    //            spawnedObject = Instantiate(objectToPlace, placedAnchor.transform.position, placedAnchor.transform.rotation);
+    //            // 2. Parent the entire thing to the anchor
+    //            spawnedObject.transform.SetParent(placedAnchor.transform);
+
+    //            // +++ MOST IMPORTANT FIX: FIND THE PIVOT +++
+    //            // This assumes your pivot object is named "RotationPivot"
+    //            rotationPivot = spawnedObject.transform.Find("RotationPivot").gameObject;
+
+    //            // Check if it was found to avoid errors
+    //            if (rotationPivot == null)
+    //            {
+    //                Debug.LogError("Could not find 'RotationPivot' GameObject in the spawned prefab! Please check the prefab's structure.");
+    //            }
+
+    //            // 3. (Optional but good practice) Get a reference to the actual model
+    //            // This is useful if your AnimateSpawn coroutine needs to scale the model, not the entire pivot.
+    //            // This assumes the model is the first child of the RotationPivot.
+    //            GameObject modelObject = null;
+    //            if (rotationPivot != null && rotationPivot.transform.childCount > 0)
+    //            {
+    //                modelObject = rotationPivot.transform.GetChild(0).gameObject;
+    //            }
+    //            // Now you can pass 'modelObject' to your AnimateSpawn coroutine if needed.
+
+    //            //smoothedPosition = spawnedObject.transform.position;
+    //            Debug.Log("✅ Monument Spawned at " + hitPose.position);
+
+    //            // Start your spawn animation
+    //            StartCoroutine(AnimateSpawn());
+    //        }
+    //    }
+    //}
+    public void PlayPauseNarration()
     {
-        if (placedAnchor != null) return; // only place once
-
-        List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        if (arRaycastManager.Raycast(screenPosition, hits, TrackableType.PlaneWithinPolygon))
+        if (isNarrationPlaying)
         {
-            Pose hitPose = hits[0].pose;
+            NativeTTS.Stop();
+            isNarrationPlaying = false;
+        }
+        else
+        {
+            string scriptToSpeak = (currentLanguage == "en-US")
+                ? SelectionManager.selectedMonument.narrationScript_English
+                : SelectionManager.selectedMonument.narrationScript_Hindi;
 
-            placedAnchor = arAnchorManager.AttachAnchor(hits[0].trackable as ARPlane, hitPose);
-
-            if (placedAnchor != null)
-            {
-                // 1. Instantiate the prefab (which contains the Pivot and the Model)
-                spawnedObject = Instantiate(objectToPlace, placedAnchor.transform.position, placedAnchor.transform.rotation);
-                // 2. Parent the entire thing to the anchor
-                spawnedObject.transform.SetParent(placedAnchor.transform);
-
-                // +++ MOST IMPORTANT FIX: FIND THE PIVOT +++
-                // This assumes your pivot object is named "RotationPivot"
-                rotationPivot = spawnedObject.transform.Find("RotationPivot").gameObject;
-
-                // Check if it was found to avoid errors
-                if (rotationPivot == null)
-                {
-                    Debug.LogError("Could not find 'RotationPivot' GameObject in the spawned prefab! Please check the prefab's structure.");
-                }
-
-                // 3. (Optional but good practice) Get a reference to the actual model
-                // This is useful if your AnimateSpawn coroutine needs to scale the model, not the entire pivot.
-                // This assumes the model is the first child of the RotationPivot.
-                GameObject modelObject = null;
-                if (rotationPivot != null && rotationPivot.transform.childCount > 0)
-                {
-                    modelObject = rotationPivot.transform.GetChild(0).gameObject;
-                }
-                // Now you can pass 'modelObject' to your AnimateSpawn coroutine if needed.
-
-                //smoothedPosition = spawnedObject.transform.position;
-                Debug.Log("✅ Monument Spawned at " + hitPose.position);
-
-                // Start your spawn animation
-                StartCoroutine(AnimateSpawn());
-            }
+            NativeTTS.Speak(scriptToSpeak);
+            isNarrationPlaying = true;
         }
     }
+    public void SetLanguage(string languageCode) // e.g., "en-US", "hi-IN"
+    {
+        currentLanguage = languageCode;
+        NativeTTS.SetLanguage(languageCode);
+
+        // If something was playing, stop it so the new language can be used next time.
+        if (isNarrationPlaying)
+        {
+            NativeTTS.Stop();
+            isNarrationPlaying = false;
+        }
+    }
+    public void LoadInteriorScene()
+    {
+        SceneManager.LoadScene("InteriorViewScene");
+    }
+
+    public void LoadMapScene()
+    {
+        SceneManager.LoadScene("MapScene");
+    }
+    public void GoToMapScene()
+{
+    // First, it's good practice to reset the current AR session to clean everything up.
+    // Our existing ResetExperience() function is perfect for this.
+    ResetExperience();
+
+    // Then, load the Map Scene.
+    // Make sure your map scene is named "MapScene" in your Build Settings.
+    SceneManager.LoadScene("MapScene");
+}
     public void ResetExperience()
     {
         // Destroy the spawned object if it exists.
@@ -288,7 +339,7 @@ public class BharatLokARController : MonoBehaviour
         allAnchors.Add(anchor);
 
         // ✅ FIX 1: Use identity rotation - let the parenting handle positioning
-        spawnedObject = Instantiate(objectToPlace, pose.position, Quaternion.identity);
+        spawnedObject = Instantiate(SelectionManager.selectedMonument.monumentARPrefab, pose.position, Quaternion.identity);
         spawnedObject.transform.SetParent(anchorGameObject.transform);
 
         rotationPivot = spawnedObject.transform.Find("RotationPivot").gameObject;
