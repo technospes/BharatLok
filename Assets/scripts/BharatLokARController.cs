@@ -12,6 +12,9 @@ using UnityEngine.XR.ARSubsystems;
 [RequireComponent(typeof(ARPlaneManager))]
 public class BharatLokARController : MonoBehaviour
 {
+    private List<string> narrationChunks;
+    private int currentChunkIndex = 0;
+    private bool isNarrationPaused = false;
     private string currentLanguage = "en-US"; // Default to English
     private bool isNarrationPlaying = false; // We still need this to track state
     [Header("1. Object Prefabs")]
