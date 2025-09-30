@@ -19,7 +19,7 @@ public class BharatLokARController : MonoBehaviour
     public GameObject placementIndicator;
 
     [Header("Settings")]
-    public float initialScale = 0.3f;  // INCREASED from 0.05f for visibility
+    public float initialScale = 0.1f;  // INCREASED from 0.05f for visibility
     public float rotationSpeed = 0.4f;
     public float zoomSpeed = 0.005f;   // INCREASED for better sensitivity
 
@@ -95,7 +95,7 @@ public class BharatLokARController : MonoBehaviour
         // Debug AR state every 60 frames (1 second at 60fps)
         if (Time.frameCount % 60 == 0)
         {
-            DebugARState();
+            //DebugARState();
         }
 
         switch (currentState)
@@ -141,30 +141,30 @@ public class BharatLokARController : MonoBehaviour
     }
 
     // Debug method to track AR state
-    private void DebugARState()
-    {
-        string debugInfo = $"AR State: {currentState}\n";
-        debugInfo += $"Session State: {ARSession.state}\n";
-        debugInfo += $"Placement Valid: {isPlacementPoseValid}\n";
-        debugInfo += $"Planes Detected: {(arPlaneManager != null ? arPlaneManager.trackables.count : 0)}\n";
+    //private void DebugARState()
+    //{
+    //    string debugInfo = $"AR State: {currentState}\n";
+    //    debugInfo += $"Session State: {ARSession.state}\n";
+    //    debugInfo += $"Placement Valid: {isPlacementPoseValid}\n";
+    //    debugInfo += $"Planes Detected: {(arPlaneManager != null ? arPlaneManager.trackables.count : 0)}\n";
 
-        if (SelectionManager.Instance?.selectedMonument != null)
-        {
-            debugInfo += $"Monument: {SelectionManager.Instance.selectedMonument.name}\n";
-            debugInfo += $"Prefab Loaded: {SelectionManager.Instance.selectedMonument.loadedPrefab != null}\n";
-        }
-        else
-        {
-            debugInfo += "No monument selected\n";
-        }
+    //    if (SelectionManager.Instance?.selectedMonument != null)
+    //    {
+    //        debugInfo += $"Monument: {SelectionManager.Instance.selectedMonument.name}\n";
+    //        debugInfo += $"Prefab Loaded: {SelectionManager.Instance.selectedMonument.loadedPrefab != null}\n";
+    //    }
+    //    else
+    //    {
+    //        debugInfo += "No monument selected\n";
+    //    }
 
-        if (onScreenDebugText != null)
-        {
-            onScreenDebugText.text = debugInfo;
-        }
+    //    if (onScreenDebugText != null)
+    //    {
+    //        onScreenDebugText.text = debugInfo;
+    //    }
 
-        Debug.Log($"AR Debug - {debugInfo.Replace('\n', '|')}");
-    }
+    //    Debug.Log($"AR Debug - {debugInfo.Replace('\n', '|')}");
+    //}
 
     // Check if touch is over UI elements
     private bool IsPointerOverUI(Vector2 screenPosition)
