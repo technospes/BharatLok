@@ -64,4 +64,4 @@ BharatLok AR bridges this gap by leveraging the power of Augmented Reality. By s
 
 ## 👥 Contributors
 
-- [cite_start]**Ayush Shukla** [cite: 2] - *Team Lead & Unity Developer* - [GitHub](https://github.com/technospes)
+- **Ayush Shukla** - *Team Lead & Unity Developer* - [GitHub](https://github.com/technospes)
