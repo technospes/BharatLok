@@ -59,3 +59,9 @@ BharatLok AR bridges this gap by leveraging the power of Augmented Reality. By s
     - Adding multilingual support for both UI text and AI-powered narration.
     - Developing a "Then & Now" feature with a slider to compare the 3D historical reconstruction with the live camera view of the current ruins.
     - Integrating gamification elements like historical scavenger hunts and quizzes to further boost user engagement.
+
+---
+
+## 👥 Contributors
+
+- [cite_start]**Ayush Shukla** [cite: 2] - *Team Lead & Unity Developer* - [GitHub](https://github.com/technospes)
