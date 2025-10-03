@@ -161,7 +161,14 @@ public class MapController : MonoBehaviour
         errorText.text = message;
         Debug.LogError(message);
     }
+    public void StartARExperienceFor(string monumentId)
+    {
+        // Set the selected ID from the waypoint that was clicked
+        selectedMonumentId = monumentId;
 
+        // Now, call your existing function that handles the download and scene loading
+        OnViewInARButtonClicked();
+    }
     public void OnBackToIntroButtonClicked()
     {
         if (isDownloading)
