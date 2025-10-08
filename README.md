@@ -1,4 +1,4 @@
-# 🇮🇳 BharatLok AR (SIH 2025 Selection)
+# 🇮🇳 BharatLok AR
 
 BharatLok AR is a mobile application that acts as a digital time machine, using Augmented Reality to transform the experience of visiting Indian cultural heritage sites. It replaces static information plaques with immersive, interactive 3D models and a personal AI tour guide, making history engaging and accessible for everyone.
 
