@@ -34,13 +34,20 @@ public class SelectionManager : MonoBehaviour
     }
 
     // Debug method to check current state
+    // Debug method to check current state
     public void DebugCurrentState()
     {
         Debug.Log("=== SELECTION MANAGER STATE ===");
         Debug.Log($"Instance exists: {Instance != null}");
-        Debug.Log($"Monument: {(selectedMonument != null ? selectedMonument.name : "NULL")}");
+
+        // FIX: We now log the ID string directly, instead of trying to access ".name"
+        Debug.Log($"Selected Monument ID: {(    selectedMonument != null ? selectedMonument : "NULL")}");
+
         Debug.Log($"Language: {currentLanguage}");
-        Debug.Log($"Prefab: {(selectedMonument?.loadedPrefab != null ? selectedMonument.loadedPrefab.name : "NULL")}");
+
+        // REMOVED: The line that tried to access ".loadedPrefab" has been removed,
+        // as this script no longer tracks the loaded 3D model.
+
         Debug.Log("================================");
     }
 
