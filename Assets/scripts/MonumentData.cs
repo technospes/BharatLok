@@ -5,6 +5,9 @@ using Firebase.Firestore;
 public class MonumentData
 {
     // CRITICAL: Firebase requires parameterless constructor
+
+    [FirestoreDocumentId]
+    public string documentId { get; set; }
     public MonumentData() { }
 
     [FirestoreProperty("name")]
