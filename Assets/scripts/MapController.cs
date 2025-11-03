@@ -112,7 +112,7 @@ public class MapController : MonoBehaviour
                 SelectionManager.Instance.DebugCurrentState(); // debug helper while testing
 
                 Debug.Log("Data loaded and set in SelectionManager. Loading AR scene...");
-                SceneManager.LoadScene("new ARscene");
+                SceneManager.LoadScene("new ARscene", LoadSceneMode.Single);
             }
             else
             {
@@ -163,10 +163,10 @@ public class MapController : MonoBehaviour
     }
     public void StartARExperienceFor(string monumentId)
     {
-        // Set the selected ID from the waypoint that was clicked
-        selectedMonumentId = monumentId;
+        // This sets the ID for this script to use
+        this.selectedMonumentId = monumentId;
 
-        // Now, call your existing function that handles the download and scene loading
+        // This triggers the main download and assignment flow
         OnViewInARButtonClicked();
     }
     public void OnBackToIntroButtonClicked()
@@ -175,7 +175,7 @@ public class MapController : MonoBehaviour
         {
             //FirebaseDataManager.CancelCurrentDownload();
         }
-        SceneManager.LoadScene("IntroScene");
+        SceneManager.LoadScene("IntroScene", LoadSceneMode.Single);
     }
 
     public void OnErrorRetryButtonClicked()
