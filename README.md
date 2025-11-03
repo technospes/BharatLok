@@ -14,10 +14,10 @@ BharatLok AR bridges this gap by leveraging the power of Augmented Reality. By s
 
 ---
 
-## 📷 Live Demo
+## 📷 Live Demo:
 
-[INSERT A HIGH-QUALITY GIF OR YOUTUBE VIDEO OF YOUR APP IN ACTION HERE]
-*A visual demonstration is critical. Show a user pointing the phone at a location, the 3D model appearing, and them tapping on it to get information.*
+https://github.com/user-attachments/assets/c02bb763-f706-4427-975a-5751855f3057
+
 
 ---
 
