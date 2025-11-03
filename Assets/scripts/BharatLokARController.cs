@@ -139,32 +139,13 @@ public class BharatLokARController : MonoBehaviour
                 break;
         }
     }
-
-    // Debug method to track AR state
-    //private void DebugARState()
-    //{
-    //    string debugInfo = $"AR State: {currentState}\n";
-    //    debugInfo += $"Session State: {ARSession.state}\n";
-    //    debugInfo += $"Placement Valid: {isPlacementPoseValid}\n";
-    //    debugInfo += $"Planes Detected: {(arPlaneManager != null ? arPlaneManager.trackables.count : 0)}\n";
-
-    //    if (SelectionManager.Instance?.selectedMonument != null)
-    //    {
-    //        debugInfo += $"Monument: {SelectionManager.Instance.selectedMonument.name}\n";
-    //        debugInfo += $"Prefab Loaded: {SelectionManager.Instance.selectedMonument.loadedPrefab != null}\n";
-    //    }
-    //    else
-    //    {
-    //        debugInfo += "No monument selected\n";
-    //    }
-
-    //    if (onScreenDebugText != null)
-    //    {
-    //        onScreenDebugText.text = debugInfo;
-    //    }
-
-    //    Debug.Log($"AR Debug - {debugInfo.Replace('\n', '|')}");
-    //}
+    public void OnShowInteriorClicked()
+    {
+        // The SelectionManager already knows which monument is active.
+        // All we need to do is load the interior scene.
+        Debug.Log("Show Interior button clicked. Loading InteriorScene...");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("InteriorScene", LoadSceneMode.Single);
+    }
 
     // Check if touch is over UI elements
     private bool IsPointerOverUI(Vector2 screenPosition)
@@ -315,7 +296,7 @@ public class BharatLokARController : MonoBehaviour
     {
         ResetExperience();
         FirebaseDataManager.CleanUpLoadedAssets();
-        SceneManager.LoadScene("MapScene");
+        SceneManager.LoadScene("MapScene", LoadSceneMode.Single);
     }
 
     public void PlayPauseNarration()
