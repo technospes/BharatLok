@@ -72,8 +72,12 @@ public static class FirebaseDataManager
             GameObject instance = new GameObject("LoadedMonument");
             await gltf.InstantiateMainSceneAsync(instance.transform);
             instance.SetActive(false);
-            // THIS IS THE CRITICAL FIX TO PREVENT THE MODEL FROM BEING DESTROYED
+
+            // --- THIS IS THE CRITICAL FIX ---
+            // We must mark this newly created object to not be destroyed when the scene changes.
             UnityEngine.Object.DontDestroyOnLoad(instance);
+            // --- END OF FIX ---
+
             return instance;
         }
         return null;
